@@ -1,0 +1,129 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Resources:
+  CreateTaskFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: lambda/
+      Handler: create_task.lambda_handler
+      Runtime: python3.9
+      Tracing: Active
+      Role: arn:aws:iam::674911868513:role/TaskManagerLambdaRole
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /tasks
+            Method: POST
+            RestApiId: !Ref TaskApi
+  ListTasksFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: lambda/
+      Handler: list_tasks.lambda_handler
+      Runtime: python3.9
+      Tracing: Active
+      Role: arn:aws:iam::674911868513:role/TaskManagerLambdaRole
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /tasks
+            Method: GET
+            RestApiId: !Ref TaskApi
+  GetTaskFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: lambda/
+      Handler: get_task.lambda_handler
+      Runtime: python3.9
+      Tracing: Active
+      Role: arn:aws:iam::674911868513:role/TaskManagerLambdaRole
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /tasks/{taskId}
+            Method: GET
+            RestApiId: !Ref TaskApi
+  UpdateTaskFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: lambda/
+      Handler: update_task.lambda_handler
+      Runtime: python3.9
+      Tracing: Active
+      Role: arn:aws:iam::674911868513:role/TaskManagerLambdaRole
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /tasks/{taskId}
+            Method: PUT
+            RestApiId: !Ref TaskApi
+  DeleteTaskFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: lambda/
+      Handler: delete_task.lambda_handler
+      Runtime: python3.9
+      Tracing: Active
+      Role: arn:aws:iam::674911868513:role/TaskManagerLambdaRole
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /tasks/{taskId}
+            Method: DELETE
+            RestApiId: !Ref TaskApi
+  GetPresignedUrlFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: lambda/
+      Handler: get_presigned_url.lambda_handler
+      Runtime: python3.9
+      Tracing: Active
+      Role: arn:aws:iam::674911868513:role/TaskManagerLambdaRole
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /presigned
+            Method: POST
+            RestApiId: !Ref TaskApi
+  ProcessNotificationFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: lambda/
+      Handler: process_notification.lambda_handler
+      Runtime: python3.9
+      Tracing: Active
+      Role: arn:aws:iam::674911868513:role/TaskManagerLambdaRole
+      Events:
+        SqsTrigger:
+          Type: SQS
+          Properties:
+            Queue: arn:aws:sqs:ap-south-1:674911868513:TaskCompletionQueue
+  ArchiveTasksFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: lambda/
+      Handler: archive_tasks.lambda_handler
+      Runtime: python3.9
+      Tracing: Active
+      Role: arn:aws:iam::674911868513:role/TaskManagerLambdaRole
+      Events:
+        Schedule:
+          Type: Schedule
+          Properties:
+            Schedule: rate(1 day)
+  TaskApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: prod
+      TracingEnabled: true
+      Auth:
+        DefaultAuthorizer: CognitoAuthorizer
+        Authorizers:
+          CognitoAuthorizer:
+            UserPoolArn: arn:aws:cognito-idp:ap-south-1:674911868513:userpool/ap-south-1_zrLtOI88d

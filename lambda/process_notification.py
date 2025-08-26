@@ -5,7 +5,7 @@ from aws_xray_sdk.core import patch_all
 patch_all()
 
 sns = boto3.client('sns')
-SNS_TOPIC_ARN = 'arn:aws:sns:ap-south-1:674911868513:TaskNotifications'  # Replace <your-account-id>
+SNS_TOPIC_ARN = 'arn:aws:sns:ap-south-1:674911868513:TaskNotifications'
 
 @xray_recorder.capture('process_notification')
 def lambda_handler(event, context):
@@ -25,6 +25,11 @@ def lambda_handler(event, context):
             print(f"Error: {str(e)}")
     return {
         'statusCode': 200,
-        'headers': {'Content-Type': 'application/json'},
+        'headers': {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'POST,OPTIONS',
+            'Access-Control-Allow-Headers': 'Content-Type,Authorization'
+        },
         'body': json.dumps({'message': 'Processed'})
     }

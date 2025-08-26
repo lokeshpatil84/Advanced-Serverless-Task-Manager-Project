@@ -6,7 +6,7 @@ from aws_xray_sdk.core import patch_all
 patch_all()
 
 s3 = boto3.client('s3')
-BUCKET_NAME = '<attachments-bucket-name>'  # Replace e.g., task-manager-attachments-xyz123
+BUCKET_NAME = 'serverless-task-manager-attachments'
 
 @xray_recorder.capture('get_presigned_url')
 def lambda_handler(event, context):
@@ -22,12 +22,22 @@ def lambda_handler(event, context):
         )
         return {
             'statusCode': 200,
-            'headers': {'Content-Type': 'application/json'},
+            'headers': {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'POST,OPTIONS',
+                'Access-Control-Allow-Headers': 'Content-Type,Authorization'
+            },
             'body': json.dumps({'presignedUrl': presigned_url, 'objectKey': object_key})
         }
     except Exception as e:
         return {
             'statusCode': 500,
-            'headers': {'Content-Type': 'application/json'},
+            'headers': {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'POST,OPTIONS',
+                'Access-Control-Allow-Headers': 'Content-Type,Authorization'
+            },
             'body': json.dumps({'error': str(e)})
         }

@@ -1,0 +1,10 @@
+force-0.1.4.dist-info/INSTALLER,sha256=zuuue4knoyJ-UwPPXg8fezS7VCrXJQrAP7zeNuwvFQg,4
+force-0.1.4.dist-info/METADATA,sha256=qKFiMNthncPchlLg0BiO9o04d2XIGMQ7SpUoaZGD9Dc,985
+force-0.1.4.dist-info/RECORD,,
+force-0.1.4.dist-info/REQUESTED,sha256=47DEQpj8HBSa-_TImW-5JCeuQeRkm5NMpJWZG3hSuFU,0
+force-0.1.4.dist-info/WHEEL,sha256=tZoeGjtWxWRfdplE7E3d45VPlLNQnvbKiYnx7gwAy8A,92
+force-0.1.4.dist-info/top_level.txt,sha256=WAjmY4BdTLUegpmqU-Y4CLbCz4zsfqC5UxOoyt2FPQc,6
+force/__init__.py,sha256=47DEQpj8HBSa-_TImW-5JCeuQeRkm5NMpJWZG3hSuFU,0
+force/__pycache__/__init__.cpython-39.pyc,,
+force/__pycache__/receptive_field.cpython-39.pyc,,
+force/receptive_field.py,sha256=Urs1-3lG-xXyQYRXjaHi_zRumzSVHNp2jdQVbhx_TR8,1067

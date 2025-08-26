@@ -1,4 +1,4 @@
-#!C:\Users\lokes\AppData\Local\Programs\Python\Python311\python.exe
+#!C:\Users\lokes\AppData\Local\Programs\Python\Python39\python.exe
 
 import sys
 import json
